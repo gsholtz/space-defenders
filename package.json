@@ -1,0 +1,10 @@
+{
+    "name":"space-battle",
+    "version":"0.0.1",
+    "dependencies":{
+      "coffee-script": "1.6.2",
+      "express": "3.1",
+      "jade": "0.28",
+      "socket.io": "0.9"
+    }
+}

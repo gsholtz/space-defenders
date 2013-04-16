@@ -1,0 +1,16 @@
+h1 {
+	font-family: arial;
+	text-align:center;	
+}
+
+.center {
+	width:400px; 
+	margin:0px auto; 
+	display:block;
+  background-color: #fff;
+}
+
+.clear {
+	clear:both;
+	padding:10px;	
+}
