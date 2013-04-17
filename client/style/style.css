@@ -4,13 +4,17 @@ h1 {
 }
 
 .center {
-	width:400px; 
+	width: 600px; 
 	margin:0px auto; 
 	display:block;
-  background-color: #000;
+  background-color: #fff;
 }
 
 .clear {
 	clear:both;
 	padding:10px;	
+}
+
+canvas {
+  background-color: #000;
 }
