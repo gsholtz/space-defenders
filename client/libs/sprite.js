@@ -1,4 +1,5 @@
 (function() {
+  
   function LoaderProxy() {
     return {
       draw: $.noop,
@@ -11,11 +12,11 @@
   }
   
   function Sprite(image, sourceX, sourceY, width, height) {
+    console.log(sourceX);
     sourceX = sourceX || 0;
     sourceY = sourceY || 0;
     width = width || image.width;
     height = height || image.height;
-    
     return {
       draw: function(canvas, x, y) {
         canvas.drawImage(
@@ -43,12 +44,12 @@
     };
   };
   
-  Sprite.load = function(url, loadedCallback) {
+  Sprite.load = function(url, sourceX, sourceY, width, height, loadedCallback) {
     var img = new Image();
     var proxy = LoaderProxy();
     
     img.onload = function() {
-      var tile = Sprite(this);
+      var tile = Sprite(img, sourceX, sourceY, width, height);
       
       $.extend(proxy, tile);
       
@@ -64,8 +65,8 @@
  
   var spriteImagePath = "images/";
 
-  window.Sprite = function(name, callback) {
-    return Sprite.load(spriteImagePath + name + ".png", callback);
+  window.Sprite = function(name, sourceX, sourceY, width, height, callback) {
+    return Sprite.load(spriteImagePath + name + ".png", sourceX, sourceY, width, height, callback);
   };
   window.Sprite.EMPTY = LoaderProxy();
   window.Sprite.load = Sprite.load;
