@@ -12,7 +12,6 @@
   }
   
   function Sprite(image, sourceX, sourceY, width, height) {
-    console.log(sourceX);
     sourceX = sourceX || 0;
     sourceY = sourceY || 0;
     width = width || image.width;

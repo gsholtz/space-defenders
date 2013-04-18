@@ -7,6 +7,9 @@ class Game
     @height = 0
     @fpsC = 0 
     @bgSprite = Sprite("starscape")
+    @player = undefined
+    @playerBullets = []
+
     window.game = @
 
   buildCanvas: (elementAppendSel, width, height) ->
@@ -19,7 +22,8 @@ class Game
     @canvasElement.appendTo(elementAppendSel)
 
   start: ->
-    @player = new Player()  
+    @player = new Player()
+
     setInterval =>
       @process()
       @draw()
@@ -30,6 +34,13 @@ class Game
     
     @processKey()
 
+    if @playerBullets
+      $(@playerBullets).each (i, bullet) ->
+        bullet.move()
+
+    @playerBullets = $.grep @playerBullets, (bullet) -> bullet.active
+    #console.log @playerBullets.length
+
     if @fpsC > 6000
       @fpsC = 0 
 
@@ -37,6 +48,13 @@ class Game
     @canvas.clearRect 0, 0, @width, @height
     @drawBackGroud()
     @player.draw()
+
+    if @playerBullets
+      $(@playerBullets).each (i, bullet) ->
+        bullet.draw()
+
+  drawBackGroud: ->
+    @bgSprite.draw @canvas, 0, 0
 
   processKey: ->
     @player.setDefault()
@@ -48,7 +66,6 @@ class Game
       @player.moveRight()
 
     if keydown.space
-      @player.shoot()
-
-  drawBackGroud: ->
-    @bgSprite.draw @canvas, 0, 0
+      @player.shoot(@playerBullets)
+    
+  

@@ -4,6 +4,9 @@ class Player
     @y = window.game.height - 55
     @width = 39
     @height = 43
+
+    @firingFrequency = 10 #every 10 frames
+
     @movementState = "normal"
     @sprite =
       normal: [
@@ -41,3 +44,10 @@ class Player
   moveRight: ->
     @x += 6
     @movementState = "right"
+
+  shoot: (bullets) ->
+    if window.game.fpsC % @firingFrequency == 0 
+      bullet = new Bullet()
+      bullet.x = @x + parseInt(@width / 2) - parseInt(bullet.width / 2)
+      bullet.y = @y + 5
+      bullets.push bullet
