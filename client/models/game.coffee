@@ -5,6 +5,9 @@ class Game
     @canvas = undefined
     @width = 0
     @height = 0
+    @fpsC = 0 
+    @bgSprite = Sprite("starscape")
+    window.game = @
 
   buildCanvas: (elementAppendSel, width, height) ->
     @width = width
@@ -23,15 +26,29 @@ class Game
     , 1000 / @fps
 
   process: ->
-    console.log "processing" 
+    @fpsC++
+    
+    @processKey()
+
+    if @fpsC > 6000
+      @fpsC = 0 
 
   draw: ->
     @canvas.clearRect 0, 0, @width, @height
-    @player.draw @canvas
+    @drawBackGroud()
+    @player.draw()
 
+  processKey: ->
+    @player.setDefault()
 
+    if keydown.left && !keydown.right
+      @player.moveLeft()
 
+    if keydown.right && !keydown.left
+      @player.moveRight()
 
+    if keydown.space
+      @player.shoot()
 
-
-
+  drawBackGroud: ->
+    @bgSprite.draw @canvas, 0, 0
