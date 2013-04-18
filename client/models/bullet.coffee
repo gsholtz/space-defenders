@@ -6,8 +6,7 @@ class Bullet
     @height = 9
     @type = "normal"
     @active = true
-    @sprite = Sprite("spaceship", 7, 134, 3, 9)
-
+    @sprite = window.sprites.bullet.normal
 
   draw: ->
     canvas = window.game.canvas
@@ -17,6 +16,7 @@ class Bullet
     @y -= 10
     if @y + @height < 0 #out of bounds 
       @active = false
+
 
 
 

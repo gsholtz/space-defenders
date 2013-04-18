@@ -22,6 +22,7 @@ class Game
     @canvasElement.appendTo(elementAppendSel)
 
   start: ->
+    @loadSprites()
     @player = new Player()
 
     setInterval =>
@@ -67,5 +68,11 @@ class Game
 
     if keydown.space
       @player.shoot(@playerBullets)
+
+  loadSprites: ->
+    sprites =
+      bullet:
+        normal: Sprite("spaceship", 7, 134, 3, 9)
     
+    window.sprites = sprites
   

@@ -49,5 +49,5 @@ class Player
     if window.game.fpsC % @firingFrequency == 0 
       bullet = new Bullet()
       bullet.x = @x + parseInt(@width / 2) - parseInt(bullet.width / 2)
-      bullet.y = @y + 5
+      bullet.y = @y
       bullets.push bullet
