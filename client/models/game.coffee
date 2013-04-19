@@ -1,12 +1,17 @@
 class Game
   constructor: ->
+    #Game properties
     @fps = 30
     @canvasElement = $("<canvas>")
     @canvas = undefined
     @width = 0
     @height = 0
-    @fpsC = 0 
-    @bgSprite = Sprite("starscape")
+
+    #FPS counter, resets at 6000
+    @fpsC = 0
+
+    #Game elements    
+    @background = undefined
     @player = undefined
     @playerBullets = []
 
@@ -23,6 +28,10 @@ class Game
 
   start: ->
     @loadSprites()
+
+    @backgrounds = [new Background(), new Background()]
+    @backgrounds[0].y = 0 - @backgrounds[0].height
+
     @player = new Player()
 
     setInterval =>
@@ -32,11 +41,14 @@ class Game
 
   process: ->
     @fpsC++
+
+    @backgrounds.forEach (background) ->
+      background.scroll()
     
     @processKey()
 
     if @playerBullets
-      $(@playerBullets).each (i, bullet) ->
+      @playerBullets.forEach (bullet) ->
         bullet.move()
 
     @playerBullets = $.grep @playerBullets, (bullet) -> bullet.active
@@ -47,15 +59,15 @@ class Game
 
   draw: ->
     @canvas.clearRect 0, 0, @width, @height
-    @drawBackGroud()
+
+    @backgrounds.forEach (background) ->
+      background.draw()
+
     @player.draw()
 
     if @playerBullets
       $(@playerBullets).each (i, bullet) ->
         bullet.draw()
-
-  drawBackGroud: ->
-    @bgSprite.draw @canvas, 0, 0
 
   processKey: ->
     @player.setDefault()
@@ -71,8 +83,11 @@ class Game
 
   loadSprites: ->
     sprites =
+      background: 
+        normal: Sprite("starscape")
       bullet:
         normal: Sprite("spaceship", 7, 134, 3, 9)
+
     
     window.sprites = sprites
   
