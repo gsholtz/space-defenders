@@ -14,6 +14,7 @@ class Game
     @background = undefined
     @player = undefined
     @playerBullets = []
+    @enemies = []
 
     window.game = @
 
@@ -54,6 +55,11 @@ class Game
     @playerBullets = $.grep @playerBullets, (bullet) -> bullet.active
     #console.log @playerBullets.length
 
+    @enemies.forEach (enemy) ->
+      enemy.move()
+
+    @spawnEnemies()
+
     if @fpsC > 6000
       @fpsC = 0 
 
@@ -69,6 +75,9 @@ class Game
       $(@playerBullets).each (i, bullet) ->
         bullet.draw()
 
+    @enemies.forEach (enemy) ->
+      enemy.draw()
+
   processKey: ->
     @player.setDefault()
 
@@ -81,12 +90,18 @@ class Game
     if keydown.space
       @player.shoot(@playerBullets)
 
+  spawnEnemies: ->
+    if @fpsC % 100 == 0
+      @enemies.push new Enemy()
+
   loadSprites: ->
     sprites =
       background: 
         normal: Sprite("starscape")
       bullet:
         normal: Sprite("spaceship", 7, 134, 3, 9)
+      enemy:
+        normal: Sprite("enemies", 142, 190, 27, 31)
 
     
     window.sprites = sprites
