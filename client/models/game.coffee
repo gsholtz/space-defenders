@@ -91,8 +91,10 @@ class Game
       @player.shoot(@playerBullets)
 
   spawnEnemies: ->
-    if @fpsC % 100 == 0
-      @enemies.push new Enemy()
+    if @fpsC % 120 == 0
+      enemy = new Enemy()
+      enemy.x = Math.floor(Math.random() * (@width - enemy.width)) 
+      @enemies.push enemy
 
   loadSprites: ->
     sprites =

@@ -26,7 +26,7 @@ class Player
     canvas = window.game.canvas
     fpsC = window.game.fpsC
 
-    @x = @x.clamp(0, window.game.width - @width);
+    @x = @x.clamp(0, window.game.width - @width)
 
     animState = 0
     if fpsC % 6 > 2 #every tenth of second, changes the animation state
