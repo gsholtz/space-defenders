@@ -57,6 +57,8 @@ class Game
 
     @enemies.forEach (enemy) ->
       enemy.move()
+    @enemies = @enemies.filter (enemy) -> enemy.active
+    console.log @enemies.length
 
     @spawnEnemies()
 

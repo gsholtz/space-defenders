@@ -30,5 +30,8 @@ class Enemy
     @x += @xSpeed
     @y += 2
 
+    if @y > window.game.height
+      @active = false
+
 
   
