@@ -15,6 +15,7 @@ class Game
     @player = undefined
     @playerBullets = []
     @enemies = []
+    @explosions = []
 
     window.game = @
 
@@ -49,21 +50,34 @@ class Game
     @processKey()
 
     if @playerBullets
-      @playerBullets.forEach (bullet) ->
+      @playerBullets.forEach (bullet) =>
         bullet.move()
+        
+        if @enemies
+          @enemies.forEach (enemy) =>
+            if Util.collides bullet, enemy
+              enemy.explodes()
+              bullet.active = false
+              @explosions.push new Explosion(enemy.x + 2, enemy.y + 6)
 
-    @playerBullets = $.grep @playerBullets, (bullet) -> bullet.active
-    #console.log @playerBullets.length
+    @playerBullets = @playerBullets.filter (bullet) -> bullet.active
 
     @enemies.forEach (enemy) ->
       enemy.move()
+
     @enemies = @enemies.filter (enemy) -> enemy.active
-    console.log @enemies.length
 
     @spawnEnemies()
 
+    @explosions.forEach (explosion) ->
+      explosion.draw()
+    @explosions = @explosions.filter (explosion) -> explosion.active
+
+
     if @fpsC > 6000
       @fpsC = 0 
+
+
 
   draw: ->
     @canvas.clearRect 0, 0, @width, @height
@@ -79,6 +93,9 @@ class Game
 
     @enemies.forEach (enemy) ->
       enemy.draw()
+
+    @explosions.forEach (explosion) ->
+      explosion.draw()
 
   processKey: ->
     @player.setDefault()
@@ -106,6 +123,19 @@ class Game
         normal: Sprite("spaceship", 7, 134, 3, 9)
       enemy:
         normal: Sprite("enemies", 142, 190, 27, 31)
+      explosion:
+        enemy: [
+          Sprite("enemies", 229, 335, 22, 25),
+          Sprite("enemies", 245, 335, 22, 25),
+          Sprite("enemies", 269, 335, 25, 25),
+          Sprite("enemies", 297, 335, 25, 25),
+          Sprite("enemies", 321, 335, 25, 25),
+          Sprite("enemies", 344, 335, 22, 25),
+          Sprite("enemies", 363, 335, 20, 25),
+          Sprite("enemies", 379, 335, 18, 25),
+          Sprite("enemies", 394, 335, 15, 25),
+          Sprite("enemies", 406, 335, 15, 25)
+        ]
 
     
     window.sprites = sprites
