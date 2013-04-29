@@ -49,6 +49,7 @@ class Game
     
     @processKey()
 
+    #Bullets
     if @playerBullets
       @playerBullets.forEach (bullet) =>
         bullet.move()
@@ -56,19 +57,26 @@ class Game
         if @enemies
           @enemies.forEach (enemy) =>
             if Util.collides bullet, enemy
-              enemy.explodes()
+              @explosions.push enemy.explode()
               bullet.active = false
-              @explosions.push new Explosion(enemy.x + 2, enemy.y + 6)
 
     @playerBullets = @playerBullets.filter (bullet) -> bullet.active
 
-    @enemies.forEach (enemy) ->
+    #Enemies
+    @enemies.forEach (enemy) =>
       enemy.move()
+      if Util.collides enemy, @player
+        @explosions.push @player.explode()
+        @explosions.push enemy.explode()
 
     @enemies = @enemies.filter (enemy) -> enemy.active
 
     @spawnEnemies()
 
+    #Player
+
+
+    #Explosions
     @explosions.forEach (explosion) ->
       explosion.draw()
     @explosions = @explosions.filter (explosion) -> explosion.active
@@ -85,7 +93,8 @@ class Game
     @backgrounds.forEach (background) ->
       background.draw()
 
-    @player.draw()
+    if @player.active
+      @player.draw()
 
     if @playerBullets
       $(@playerBullets).each (i, bullet) ->
@@ -98,16 +107,17 @@ class Game
       explosion.draw()
 
   processKey: ->
-    @player.setDefault()
+    if @player.active
+      @player.setDefault()
 
-    if keydown.left && !keydown.right
-      @player.moveLeft()
+      if keydown.left && !keydown.right
+        @player.moveLeft()
 
-    if keydown.right && !keydown.left
-      @player.moveRight()
+      if keydown.right && !keydown.left
+        @player.moveRight()
 
-    if keydown.space
-      @player.shoot(@playerBullets)
+      if keydown.space
+        @player.shoot(@playerBullets)
 
   spawnEnemies: ->
     if @fpsC % 120 == 0

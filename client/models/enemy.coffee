@@ -33,6 +33,7 @@ class Enemy
     if @y > window.game.height
       @active = false
 
-  explodes: ->
+  explode: ->
     @active = false
+    new Explosion @x + 2, @y + 6
     

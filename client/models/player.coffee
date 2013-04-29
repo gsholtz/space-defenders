@@ -4,6 +4,7 @@ class Player
     @y = window.game.height - 55
     @width = 39
     @height = 43
+    @active = true
 
     @firingFrequency = 10 #every 10 frames
 
@@ -51,3 +52,7 @@ class Player
       bullet.x = @x + parseInt(@width / 2) - parseInt(bullet.width / 2)
       bullet.y = @y
       bullets.push bullet
+
+  explode: ->
+    @active = false
+    new Explosion @x, @y
