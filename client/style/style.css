@@ -18,3 +18,7 @@ h1 {
 canvas {
   background-color: #000;
 }
+
+#author {
+  display: none;
+}

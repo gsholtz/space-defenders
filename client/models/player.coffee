@@ -6,6 +6,8 @@ class Player
     @height = 43
     @active = true
 
+    #Stats
+    @points = 0
     @firingFrequency = 10 #every 10 frames
 
     @movementState = "normal"

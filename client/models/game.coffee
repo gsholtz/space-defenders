@@ -59,6 +59,7 @@ class Game
             if Util.collides bullet, enemy
               @explosions.push enemy.explode()
               bullet.active = false
+              @player.points++
 
     @playerBullets = @playerBullets.filter (bullet) -> bullet.active
 
@@ -106,6 +107,8 @@ class Game
     @explosions.forEach (explosion) ->
       explosion.draw()
 
+    @drawUI()
+
   processKey: ->
     if @player.active
       @player.setDefault()
@@ -124,6 +127,11 @@ class Game
       enemy = new Enemy()
       enemy.x = Math.floor(Math.random() * (@width - enemy.width)) 
       @enemies.push enemy
+
+  drawUI: ->
+    @canvas.fillStyle = "yellow"
+    @canvas.font = "bold 13px sans-serif"
+    @canvas.fillText("Score  #{@player.points}", @width - 80, 30)
 
   loadSprites: ->
     sprites =
@@ -149,4 +157,5 @@ class Game
 
     
     window.sprites = sprites
+
   
