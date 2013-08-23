@@ -10,7 +10,7 @@ class Game
     #FPS counter, resets at 6000
     @fpsC = 0
 
-    #Game elements    
+    #Game elements
     @background = undefined
     @player = undefined
     @playerBullets = []
@@ -46,14 +46,14 @@ class Game
 
     @backgrounds.forEach (background) ->
       background.scroll()
-    
+
     @processKey()
 
     #Bullets
     if @playerBullets
       @playerBullets.forEach (bullet) =>
         bullet.move()
-        
+
         if @enemies
           @enemies.forEach (enemy) =>
             if Util.collides bullet, enemy
@@ -84,9 +84,7 @@ class Game
 
 
     if @fpsC > 6000
-      @fpsC = 0 
-
-
+      @fpsC = 0
 
   draw: ->
     @canvas.clearRect 0, 0, @width, @height
@@ -125,7 +123,7 @@ class Game
   spawnEnemies: ->
     if @fpsC % 120 == 0
       enemy = new Enemy()
-      enemy.x = Math.floor(Math.random() * (@width - enemy.width)) 
+      enemy.x = Math.floor(Math.random() * (@width - enemy.width))
       @enemies.push enemy
 
   drawUI: ->
@@ -135,10 +133,11 @@ class Game
 
   loadSprites: ->
     sprites =
-      background: 
+      background:
         normal: Sprite("starscape")
       bullet:
         normal: Sprite("spaceship", 7, 134, 3, 9)
+        enemy:  Sprite("enemies", 121, 134, 3, 10)
       enemy:
         normal: Sprite("enemies", 142, 190, 27, 31)
       explosion:
@@ -155,7 +154,6 @@ class Game
           Sprite("enemies", 406, 335, 15, 25)
         ]
 
-    
+
     window.sprites = sprites
 
-  

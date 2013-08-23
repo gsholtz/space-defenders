@@ -1,12 +1,12 @@
 class Bullet
-  constructor: ->
+  constructor: (type) ->
     @x = 0
     @y = 0
     @width = 3
     @height = 9
-    @type = "normal"
+    @type = if type then type else "normal"
     @active = true
-    @sprite = window.sprites.bullet.normal
+    @sprite = window.sprites.bullet[@type]
 
   draw: ->
     canvas = window.game.canvas
@@ -14,7 +14,7 @@ class Bullet
 
   move: ->
     @y -= 10
-    if @y + @height < 0 #out of bounds 
+    if @y + @height < 0 #out of bounds
       @active = false
 
 
