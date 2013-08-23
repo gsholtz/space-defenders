@@ -14,7 +14,7 @@ app.use app.router
 app.listen 1337
 
 #Build Commands
-if app.settings.env == "development" 
+if app.settings.env == "development"
   exec = require("child_process").exec
   exec "coffee -c -j client/application.js client/models/", (err, stdout, stderr) ->
     if err is not null
@@ -27,4 +27,4 @@ if app.settings.env == "development"
 app.get "/", (req, res) ->
   res.render "index"
 
-console.log "Server running..."
+console.log "Server running at http://localhost:1337"
