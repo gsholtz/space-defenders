@@ -11,7 +11,7 @@ app.use express.cookieParser()
 app.use express.static "#{__dirname}/client"
 app.use app.router
 
-app.listen 1337
+app.listen process.env.PORT or process.env.VMC_APP_PORT or 1337
 
 #Build Commands
 if app.settings.env == "development"
