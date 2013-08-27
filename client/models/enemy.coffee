@@ -37,8 +37,8 @@ class Enemy
 
   shoot: (enemyBullets) ->
     chance = Math.floor(Math.random() * 100)
-
-    if chance > 97
+    shootRate = 3 + (window.game.level / 50)
+    if chance > (100 - shootRate)
       bullet = new Bullet("enemy")
       bullet.x = @x + parseInt(@width / 2) - parseInt(bullet.width / 2)
       bullet.y = @y + @height

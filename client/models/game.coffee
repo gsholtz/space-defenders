@@ -11,6 +11,7 @@ class Game
     @fpsC = 0
 
     #Game elements
+    @level = 0
     @background = undefined
     @player = undefined
     @enemies = []
@@ -91,6 +92,10 @@ class Game
       explosion.draw()
     @explosions = @explosions.filter (explosion) -> explosion.active
 
+    #Difficulty
+    if @fpsC % 300 == 0
+      @level++
+
 
     if @fpsC > 6000
       @fpsC = 0
@@ -134,15 +139,16 @@ class Game
         @player.shoot()
 
   spawnEnemies: ->
-    if @fpsC % 120 == 0
+    spawnRate = if @level < 90 then 120 - @level else 30
+    if @fpsC % spawnRate == 0
       enemy = new Enemy()
       enemy.x = Math.floor(Math.random() * (@width - enemy.width))
       @enemies.push enemy
 
   drawUI: ->
     @canvas.fillStyle = "yellow"
-    @canvas.font = "bold 13px sans-serif"
-    @canvas.fillText("Score  #{@player.points}", @width - 80, 30)
+    @canvas.font = "bold 9px 'Press Start 2P' cursive"
+    @canvas.fillText("Score  #{@player.points}", @width - 100, 30)
 
   loadSprites: ->
     sprites =
