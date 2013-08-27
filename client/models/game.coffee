@@ -13,9 +13,9 @@ class Game
     #Game elements
     @background = undefined
     @player = undefined
-    @playerBullets = []
     @enemies = []
     @explosions = []
+    @enemyBullets = []
 
     window.game = @
 
@@ -50,10 +50,9 @@ class Game
     @processKey()
 
     #Bullets
-    if @playerBullets
-      @playerBullets.forEach (bullet) =>
+    if @player.bullets
+      @player.bullets.forEach (bullet) =>
         bullet.move()
-
         if @enemies
           @enemies.forEach (enemy) =>
             if Util.collides bullet, enemy
@@ -61,11 +60,21 @@ class Game
               bullet.active = false
               @player.points++
 
-    @playerBullets = @playerBullets.filter (bullet) -> bullet.active
+    @player.bullets = @player.bullets.filter (bullet) -> bullet.active
+
+    if @enemyBullets
+        @enemyBullets.forEach (bullet) =>
+          bullet.move()
+          if Util.collides bullet, @player
+            @explosions.push @player.explode()
+            bullet.active = false
+
+    @enemyBullets = @enemyBullets.filter (bullet) -> bullet.active
 
     #Enemies
     @enemies.forEach (enemy) =>
       enemy.move()
+      enemy.shoot(@enemyBullets)
       if Util.collides enemy, @player
         @explosions.push @player.explode()
         @explosions.push enemy.explode()
@@ -95,12 +104,16 @@ class Game
     if @player.active
       @player.draw()
 
-    if @playerBullets
-      $(@playerBullets).each (i, bullet) ->
+    if @player.bullets
+      $(@player.bullets).each (i, bullet) ->
         bullet.draw()
 
     @enemies.forEach (enemy) ->
       enemy.draw()
+
+    if @enemyBullets
+      @enemyBullets.forEach (bullet) ->
+        bullet.draw()
 
     @explosions.forEach (explosion) ->
       explosion.draw()
@@ -118,7 +131,7 @@ class Game
         @player.moveRight()
 
       if keydown.space
-        @player.shoot(@playerBullets)
+        @player.shoot()
 
   spawnEnemies: ->
     if @fpsC % 120 == 0

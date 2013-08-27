@@ -1,12 +1,14 @@
 class Enemy
   constructor: ->
     @x = 0
-    @y = -31 
+    @y = -31
     @width = 27
     @height = 31
     @type = "normal"
     @active = true
     @sprite = window.sprites.enemy[@type]
+
+    @bullets = []
 
     @xSpeed = 0
 
@@ -24,7 +26,7 @@ class Enemy
         @xSpeed = 0
       else if chance > 93
         @xSpeed = 3
-      else 
+      else
         @xSpeed = -3
 
     @x += @xSpeed
@@ -33,7 +35,16 @@ class Enemy
     if @y > window.game.height
       @active = false
 
+  shoot: (enemyBullets) ->
+    chance = Math.floor(Math.random() * 100)
+
+    if chance > 97
+      bullet = new Bullet("enemy")
+      bullet.x = @x + parseInt(@width / 2) - parseInt(bullet.width / 2)
+      bullet.y = @y + @height
+      bullet.speed = 6
+      enemyBullets.push bullet
+
   explode: ->
     @active = false
     new Explosion @x + 2, @y + 6
-    
