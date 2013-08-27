@@ -1,24 +1,73 @@
+@import url(http://fonts.googleapis.com/css?family=Fugaz+One);
+@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
+
+body {
+    background-color: #EEE;
+}
+
 h1 {
 	font-family: arial;
-	text-align:center;	
+	text-align:center;
 }
 
 .center {
-	width: 600px; 
-	margin:0px auto; 
+	width: 600px;
+    height: 600px;
+	margin:0px auto;
 	display:block;
-  background-color: #fff;
+    background-color: #fff;
 }
 
 .clear {
 	clear:both;
-	padding:10px;	
+	padding:10px;
 }
 
 canvas {
-  background-color: #000;
+    background-color: #000;
+}
+
+a#github, a#github img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    width: 149px;
+    height: 149px;
+}
+
+#title {
+    text-align: center;
+    font-family: 'Fugaz One', cursive;
+    font-size: 18px;
+    color: #B31D14;
+    padding-bottom: 5px;
+}
+
+#instructions {
+    text-align: center;
+    font-family: 'Fugaz One', cursive;
+    font-size: 13px;
+    color: #043A47;
+    padding-top: 18px;
+}
+
+#instructions ol {
+    font-size: 10px;
+    color: #043A47;
+    width: 350px; margin: 0 auto;
+    padding-top: 5px;
+}
+
+#instructions ol li {
+    text-align: left;
 }
 
 #author {
-  display: none;
+    text-align: center;
+    font-family: arial;
+    font-size: 9px;
+    color: #087891;
+    padding-top: 20px;
+  /*display: none;*/
 }
