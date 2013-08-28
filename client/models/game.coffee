@@ -67,8 +67,9 @@ class Game
         @enemyBullets.forEach (bullet) =>
           bullet.move()
           if Util.collides bullet, @player
-            @explosions.push @player.explode()
             bullet.active = false
+            @player.hp-- #enemy bullet dmg = 1
+            console.log @player.hp
 
     @enemyBullets = @enemyBullets.filter (bullet) -> bullet.active
 
@@ -77,23 +78,22 @@ class Game
       enemy.move()
       enemy.shoot(@enemyBullets)
       if Util.collides enemy, @player
-        @explosions.push @player.explode()
         @explosions.push enemy.explode()
+        @player.hp -= 2 #enemy collision dmg = 2
 
     @enemies = @enemies.filter (enemy) -> enemy.active
 
     @spawnEnemies()
 
     #Player
-
+    if @player.hp <= 0 and @player.active
+      @explosions.push @player.explode()
 
     #Explosions
-    @explosions.forEach (explosion) ->
-      explosion.draw()
     @explosions = @explosions.filter (explosion) -> explosion.active
 
     #Difficulty
-    if @fpsC % 300 == 0
+    if @fpsC % 150 == 0 #Every 5 seconds
       @level++
 
 
@@ -146,9 +146,21 @@ class Game
       @enemies.push enemy
 
   drawUI: ->
+    #Score
     @canvas.fillStyle = "yellow"
     @canvas.font = "bold 9px 'Press Start 2P' cursive"
-    @canvas.fillText("Score  #{@player.points}", @width - 100, 30)
+    @canvas.fillText("Score", @width - 100, 30)
+    @canvas.fillText(@player.points, @width - 30, 30)
+
+    #Player Health Points
+    if @player.active
+      hpPercent = Math.round((@player.hp / @player.maxHp) * 100)
+      @canvas.beginPath()
+      @canvas.rect @width - 210, 20, hpPercent, 10
+      @canvas.fillStyle = @getPercentColor hpPercent
+      @canvas.fill()
+    else
+      @over @canvas
 
   loadSprites: ->
     sprites =
@@ -172,7 +184,18 @@ class Game
           Sprite("enemies", 394, 335, 15, 25),
           Sprite("enemies", 406, 335, 15, 25)
         ]
-
-
     window.sprites = sprites
+
+  getPercentColor: (percent) ->
+    r = if percent > 33 then (100 - percent) * 3 else 200
+    g = if percent < 66 then percent * 3 else 200
+    "rgb(#{r}, #{g}, 0)"
+
+  over: (canvas) ->
+    @canvas.fillStyle = "yellow"
+    @canvas.font = "bold 16px 'Press Start 2P' cursive"
+    @canvas.fillText("Game Over", (@width / 2 - 70), (@height / 2 - 8))
+
+
+
 

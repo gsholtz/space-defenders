@@ -8,6 +8,9 @@ class Player
 
     @bullets = []
 
+    @maxHp = 5
+    @hp = 5
+
     #Stats
     @points = 0
     @firingFrequency = 10 #every 10 frames
